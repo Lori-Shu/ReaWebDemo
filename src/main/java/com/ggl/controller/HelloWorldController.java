@@ -84,6 +84,7 @@ public class HelloWorldController {
   }
   @GetMapping("getWorld")
   public Mono<String> getWorld(){
-    return Mono.just("this is world!");
+    throw new RuntimeException("testEc");
+    // return Mono.just("this is world!");
   }
 }
