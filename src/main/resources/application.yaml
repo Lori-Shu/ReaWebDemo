@@ -1,0 +1,18 @@
+server:
+  port: 8536
+
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.137.100:5432/test
+    username: prt_ggl
+    # 纯数字密码不会被正确识别，需要加上‘’
+    password: '010427'
+    driver-class-name: org.postgresql.Driver
+  task:
+    execution:
+      pool:
+        max-size: 6
+        core-size: 3
+        allow-core-thread-timeout: true
+        
+
