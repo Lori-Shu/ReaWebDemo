@@ -27,7 +27,8 @@ public class NoteServiceImpl implements NoteService{
     @Override
     @Async
     public CompletableFuture <List<Note>> selectPage(NoteSelectPageDetail detail) {
-        List<Note> res= noteRepository.selectPage(detail);
+        int startCount=(detail.getTargetPage()-1)*10;
+        List<Note> res= noteRepository.selectPage(detail.getUserId(),detail.getPartTitle(),startCount);
         return CompletableFuture.completedFuture(res);
     }
     

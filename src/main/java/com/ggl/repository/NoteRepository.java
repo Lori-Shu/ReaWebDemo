@@ -10,6 +10,6 @@ import com.ggl.dto.NoteSelectPageDetail;
 import com.ggl.entity.Note;
 
 public interface NoteRepository extends JpaRepository<Note,String>{
-    @Query("select n from Note n where n.userId=#{#detail.userId} and n.title like *#{#detail.title}* limit (#{#detail.targetPage}-1)*10+1,10")
-    public List<Note>  selectPage(@Param("detail") NoteSelectPageDetail detail);
+    @Query(nativeQuery = true ,value =  "select * from t_note as t where t.userId=?1 and t.title like %?2% limit ?3,10")
+    public List<Note>  selectPage( String userId,String partTitle,int startCount );
 }
