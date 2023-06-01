@@ -5,7 +5,7 @@ server:
             enabled: false
 spring:
     datasource:
-        url: jdbc:postgresql://192.168.56.100:5432/test
+        url: jdbc:postgresql://192.168.56.100:5432/ggl_zone
         username: prt_ggl
         # 纯数字密码不会被正确识别，需要加上‘’
         password: '010427'
