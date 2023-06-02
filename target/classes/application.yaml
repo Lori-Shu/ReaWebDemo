@@ -1,5 +1,5 @@
 server:
-    port: 8536
+    port: 8566
     error:
         whitelabel:
             enabled: false
