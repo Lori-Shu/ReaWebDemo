@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ggl.dto.AddNoteDetail;
 import com.ggl.dto.NoteSelectPageDetail;
 import com.ggl.entity.Note;
 import com.ggl.service.NoteService;
@@ -24,6 +25,11 @@ public class NoteController {
     @PostMapping("/selectPage")
     public Mono<List<Note>> selectPage(@RequestBody NoteSelectPageDetail detail){
         CompletableFuture<List<Note>> res = noteService.selectPage(detail);
+        return Mono.fromFuture(res);
+    }
+    @PostMapping("/addNote")
+    public Mono<String> addNote(@RequestBody AddNoteDetail detail){
+        CompletableFuture<String> res = noteService.addNote(detail);
         return Mono.fromFuture(res);
     }
 }
