@@ -15,6 +15,8 @@ import org.springframework.web.reactive.result.view.View;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 
+import com.ggl.entity.CommonResult;
+
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.netty.ByteBufMono;
@@ -23,9 +25,10 @@ import reactor.netty.ByteBufMono;
 @Slf4j
 public class AllCtrExceptionHandler{
     @ExceptionHandler({ Throwable.class })
-  public Mono<String> handleGlobalException(Exception e) {
+  public Mono<CommonResult<String>> handleGlobalException(Exception e) {
       log.warn("globalException" + e.getMessage());
-      return Mono.just("error/404");
+    //   return Mono.just("error/404");
+    return Mono.just(CommonResult.error(e.getMessage()));
     
   }
   
