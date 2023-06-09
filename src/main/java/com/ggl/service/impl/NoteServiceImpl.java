@@ -9,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ggl.dto.AddNoteDetail;
 import com.ggl.dto.NoteSelectPageDetail;
+import com.ggl.entity.CommonResult;
 import com.ggl.entity.Note;
 import com.ggl.repository.NoteRepository;
 import com.ggl.service.NoteService;
 
 import io.netty.util.concurrent.CompleteFuture;
+import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class NoteServiceImpl implements NoteService{
 
     
@@ -29,23 +32,25 @@ public class NoteServiceImpl implements NoteService{
      */
     @Override
     @Async
-    public CompletableFuture <List<Note>> selectPage(NoteSelectPageDetail detail) {
+    public CompletableFuture <CommonResult< List<Note>>> selectPage(NoteSelectPageDetail detail) {
         int startCount=(detail.getTargetPage()-1)*10;
-        List<Note> res= noteRepository.selectPage(detail.getUserId(),detail.getPartTitle(),startCount);
-        return CompletableFuture.completedFuture(res);
+        log.info("传入的keyword："+detail.getKeyword());
+        List<Note> res= noteRepository.selectPage(detail.getUserId(),detail.getKeyword(),startCount);
+        log.info("note select res:"+res.toString());
+        return CompletableFuture.completedFuture(CommonResult.success(res));
     }
     /**
-     * 新增note
+     * 新增note或修改已有note
      */
     @Override
     @Async
-    public CompletableFuture<String> addNote(AddNoteDetail detail) {
+    public CompletableFuture<CommonResult< String>> addNote(AddNoteDetail detail) {
         Note newNote=new Note();
         newNote.setUserId(detail.getUserId());
         newNote.setTitle(detail.getTitle());
         newNote.setContent(detail.getContent());
         noteRepository.save(newNote);
-        return CompletableFuture.completedFuture("新增note成功！");
+        return CompletableFuture.completedFuture(CommonResult.success("新增note或修改已有note成功！"));
     }
     
 }

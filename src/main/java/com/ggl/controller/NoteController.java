@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ggl.dto.AddNoteDetail;
 import com.ggl.dto.NoteSelectPageDetail;
+import com.ggl.entity.CommonResult;
 import com.ggl.entity.Note;
 import com.ggl.service.NoteService;
 
@@ -23,13 +24,13 @@ public class NoteController {
         noteService=n;
     }
     @PostMapping("/selectPage")
-    public Mono<List<Note>> selectPage(@RequestBody NoteSelectPageDetail detail){
-        CompletableFuture<List<Note>> res = noteService.selectPage(detail);
+    public Mono<CommonResult<List<Note>>> selectPage(@RequestBody NoteSelectPageDetail detail){
+        CompletableFuture<CommonResult<List<Note>>> res = noteService.selectPage(detail);
         return Mono.fromFuture(res);
     }
     @PostMapping("/addNote")
-    public Mono<String> addNote(@RequestBody AddNoteDetail detail){
-        CompletableFuture<String> res = noteService.addNote(detail);
+    public Mono<CommonResult<String>> addNote(@RequestBody AddNoteDetail detail){
+        CompletableFuture<CommonResult<String>> res = noteService.addNote(detail);
         return Mono.fromFuture(res);
     }
 }

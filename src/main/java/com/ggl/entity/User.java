@@ -17,15 +17,15 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="ggl_t_user",schema="public")
+@Table(name="t_user",schema="public")
 @Data
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name="id")
   private String id;
-  @Column(name = "name")
-  private String name;
+  @Column(name = "username")
+  private String username;
   @Column(name = "password")
   private String password;
   @Column(name="age")
@@ -34,6 +34,7 @@ public class User {
   private String createTime;
   @Column(name = "update_time")
   private String updateTime;
+
   
   @PrePersist
   public void preSet() {
