@@ -32,12 +32,19 @@ public class NoteServiceImpl implements NoteService{
      */
     @Override
     @Async
-    public CompletableFuture <CommonResult< List<Note>>> selectPage(NoteSelectPageDetail detail) {
+    public CompletableFuture <CommonResult<NoteSelectPageDetail>> selectPage(NoteSelectPageDetail detail) {
         int startCount=(detail.getTargetPage()-1)*10;
         log.info("传入的keyword："+detail.getKeyword());
         List<Note> res= noteRepository.selectPage(detail.getUserId(),detail.getKeyword(),startCount);
         log.info("note select res:"+res.toString());
-        return CompletableFuture.completedFuture(CommonResult.success(res));
+        int ct = noteRepository.countNotePage(detail.getUserId(), detail.getKeyword());
+        if(ct%10==0){
+        detail.setAllPages(ct/10);
+        }else if(ct%10!=0){
+            detail.setAllPages(ct/10+1);
+        }
+        detail.setNotes(res);
+        return CompletableFuture.completedFuture(CommonResult.success(detail));
     }
     /**
      * 新增note或修改已有note
@@ -51,6 +58,13 @@ public class NoteServiceImpl implements NoteService{
         newNote.setContent(detail.getContent());
         noteRepository.save(newNote);
         return CompletableFuture.completedFuture(CommonResult.success("新增note或修改已有note成功！"));
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<CommonResult<String>> deleteNote(Note n) {
+        noteRepository.delete(n);
+        return CompletableFuture.completedFuture(CommonResult.success("删除Note成功"));
     }
     
 }

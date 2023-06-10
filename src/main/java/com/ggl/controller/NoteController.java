@@ -24,13 +24,19 @@ public class NoteController {
         noteService=n;
     }
     @PostMapping("/selectPage")
-    public Mono<CommonResult<List<Note>>> selectPage(@RequestBody NoteSelectPageDetail detail){
-        CompletableFuture<CommonResult<List<Note>>> res = noteService.selectPage(detail);
+    public Mono<CommonResult<NoteSelectPageDetail>> selectPage(@RequestBody NoteSelectPageDetail detail){
+        CompletableFuture<CommonResult<NoteSelectPageDetail>> res = noteService.selectPage(detail);
         return Mono.fromFuture(res);
     }
     @PostMapping("/addNote")
     public Mono<CommonResult<String>> addNote(@RequestBody AddNoteDetail detail){
         CompletableFuture<CommonResult<String>> res = noteService.addNote(detail);
+        return Mono.fromFuture(res);
+    }
+    
+    @PostMapping("/delete")
+    public Mono<CommonResult<String>> deleteNote(@RequestBody Note n) {
+        CompletableFuture<CommonResult<String>> res = noteService.deleteNote(n);
         return Mono.fromFuture(res);
     }
 }
