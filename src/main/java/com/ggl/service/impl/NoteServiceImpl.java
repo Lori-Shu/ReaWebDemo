@@ -1,6 +1,7 @@
 package com.ggl.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import org.springframework.scheduling.annotation.Async;
@@ -52,11 +53,19 @@ public class NoteServiceImpl implements NoteService{
     @Override
     @Async
     public CompletableFuture<CommonResult< String>> addNote(AddNoteDetail detail) {
+        if(detail.getId().equals("")){
         Note newNote=new Note();
         newNote.setUserId(detail.getUserId());
         newNote.setTitle(detail.getTitle());
         newNote.setContent(detail.getContent());
         noteRepository.save(newNote);
+        return CompletableFuture.completedFuture(CommonResult.success("新增note或修改已有note成功！"));
+        }
+        Optional<Note> no = noteRepository.findById(detail.getId());
+        Note note = no.get();
+        note.setTitle(detail.getTitle());
+        note.setContent(detail.getContent());
+        noteRepository.save(note);
         return CompletableFuture.completedFuture(CommonResult.success("新增note或修改已有note成功！"));
     }
 

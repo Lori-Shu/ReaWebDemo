@@ -6,6 +6,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+
 /**
  * Hello world!
  *
@@ -18,6 +21,7 @@ public class App
     {
         SpringApplication.run(App.class, args);
         System.out.println("Hello World!");
+ 
         
     }
 }
